@@ -42,7 +42,6 @@ function parsePayload_(e) {
   try {
     payload = JSON.parse(raw);
   } catch (jsonErr) {
-    // Supports posting as payload={...json...}
     const maybePayload = (e.parameter && e.parameter.payload) ? e.parameter.payload : '';
     if (!maybePayload) {
       throw new Error('Invalid JSON payload.');
@@ -75,8 +74,6 @@ function appendSubmission_(sheet, formType, payload) {
       'churchAddress',
       'delegationHeadName',
       'delegationHeadEmail',
-      'men',
-      'ladies',
       'totalDelegates',
       'totalFee',
       'paymentMethod',
@@ -85,22 +82,37 @@ function appendSubmission_(sheet, formType, payload) {
       'paymentDate',
       'accountName',
       'receiptLink',
-      'delegatesJson'
+      'delegateNo',
+      'firstName',
+      'middleName',
+      'lastName',
+      'nickname',
+      'gender',
+      'birthDate',
+      'education',
+      'contact',
+      'email',
+      'emergencyContact',
+      'emergencyNumber',
+      'ministry',
+      'accommodation',
+      'firstTime'
     ];
     ensureHeader_(sheet, headers);
 
     const summary = payload.summary || {};
     const payment = payload.payment || {};
     const receiptLink = saveReceiptToDrive_(payment);
-    const row = [
+    const delegates = payload.delegates || [];
+
+    // Shared columns repeated on every delegate row
+    const sharedCols = [
       payload.submittedAt || new Date().toISOString(),
       payload.churchName || '',
       payload.pastorName || '',
       payload.churchAddress || '',
       payload.delegationHeadName || '',
       payload.delegationHeadEmail || '',
-      Number(summary.men || 0),
-      Number(summary.ladies || 0),
       Number(summary.total || 0),
       Number(summary.totalFee || 0),
       payment.method || '',
@@ -108,10 +120,30 @@ function appendSubmission_(sheet, formType, payload) {
       Number(payment.amountPaid || 0),
       payment.paymentDate || '',
       payment.accountName || '',
-      receiptLink || payment.receiptFileName || '',
-      JSON.stringify(payload.delegates || [])
+      receiptLink || payment.receiptFileName || ''
     ];
-    sheet.appendRow(row);
+
+    // One row per delegate
+    delegates.forEach(function(d, i) {
+      const row = sharedCols.concat([
+        i + 1,
+        d.firstName || '',
+        d.middleName || '',
+        d.lastName || '',
+        d.nickname || '',
+        d.gender || '',
+        d.birthDate || '',
+        d.education || '',
+        d.contact || '',
+        d.email || '',
+        d.emergency || '',
+        d.emergencyNum || '',
+        d.ministry || '',
+        d.accommodation || '',
+        d.firstTime || ''
+      ]);
+      sheet.appendRow(row);
+    });
     return;
   }
 
@@ -230,7 +262,6 @@ function saveReceiptToDrive_(source) {
     return '';
   }
 
-  // Limit base64 payload size to prevent oversized request issues.
   if (base64Data.length > 5 * 1024 * 1024) {
     throw new Error('Receipt file is too large. Please upload an image under 3MB.');
   }
@@ -244,7 +275,6 @@ function saveReceiptToDrive_(source) {
   try {
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
   } catch (sharingErr) {
-    // Sharing restriction by org policy — file is saved but not public
     Logger.log('Could not set sharing: ' + sharingErr.message);
   }
   return file.getUrl();
@@ -265,10 +295,9 @@ function jsonResponse_(obj) {
 }
 
 function testDriveAccess() {
-  // This forces full drive write scope authorization
   const folder = getReceiptFolder_();
   const testBlob = Utilities.newBlob('test', 'text/plain', 'auth_test.txt');
   const file = folder.createFile(testBlob);
-  file.setTrashed(true); // immediately deletes the test file
+  file.setTrashed(true);
   Logger.log('Drive write access confirmed: ' + folder.getName());
 }
