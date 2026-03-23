@@ -4,7 +4,10 @@ const SHEET_NAME_MAP = {
   merch_order: 'Merch Orders'
 };
 
-const RECEIPT_FOLDER_ID = '1P5Br2tmeyfV1qzY452gmMwfRlNnUnyfP';
+// Shared folder for both registration forms (youth + pastors/missionaries)
+const REGISTRATION_RECEIPT_FOLDER_ID = '1P5Br2tmeyfV1qzY452gmMwfRlNnUnyfP';
+// Separate folder for merch receipts
+const MERCH_RECEIPT_FOLDER_ID = '1976HmVgVLZTta-Kvt6nh5ieL3uOLfA2X';
 
 function doPost(e) {
   try {
@@ -102,7 +105,7 @@ function appendSubmission_(sheet, formType, payload) {
 
     const summary = payload.summary || {};
     const payment = payload.payment || {};
-    const receiptLink = saveReceiptToDrive_(payment);
+    const receiptLink = saveReceiptToDrive_(payment, formType);
     const delegates = payload.delegates || [];
 
     // Shared columns repeated on every delegate row
@@ -178,7 +181,7 @@ function appendSubmission_(sheet, formType, payload) {
     const personal = payload.personalInfo || {};
     const church = payload.churchInfo || {};
     const payment = payload.payment || {};
-    const receiptLink = saveReceiptToDrive_(payment);
+    const receiptLink = saveReceiptToDrive_(payment, formType);
     const row = [
       payload.submittedAt || new Date().toISOString(),
       payload.role || '',
@@ -223,7 +226,7 @@ function appendSubmission_(sheet, formType, payload) {
     ];
     ensureHeader_(sheet, headers);
 
-    const receiptLink = saveReceiptToDrive_(payload);
+    const receiptLink = saveReceiptToDrive_(payload, formType);
 
     const row = [
       payload.submittedAt || new Date().toISOString(),
@@ -256,7 +259,7 @@ function ensureHeader_(sheet, headers) {
   }
 }
 
-function saveReceiptToDrive_(source) {
+function saveReceiptToDrive_(source, formType) {
   const base64Data = source && source.receiptFileBase64 ? String(source.receiptFileBase64) : '';
   if (!base64Data) {
     return '';
@@ -270,7 +273,7 @@ function saveReceiptToDrive_(source) {
   const fileName = source && source.receiptFileName ? String(source.receiptFileName) : 'receipt';
 
   const blob = Utilities.newBlob(Utilities.base64Decode(base64Data), mimeType, fileName);
-  const folder = getReceiptFolder_();
+  const folder = getReceiptFolder_(formType);
   const file = folder.createFile(blob);
   try {
     file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
@@ -280,8 +283,17 @@ function saveReceiptToDrive_(source) {
   return file.getUrl();
 }
 
-function getReceiptFolder_() {
-  const configuredId = PropertiesService.getScriptProperties().getProperty('RECEIPT_FOLDER_ID') || RECEIPT_FOLDER_ID;
+function getReceiptFolder_(formType) {
+  const isMerch = String(formType || '').trim() === 'merch_order';
+  const scriptProperties = PropertiesService.getScriptProperties();
+
+  // Optional Script Properties overrides:
+  // - RECEIPT_FOLDER_ID_REGISTRATION
+  // - RECEIPT_FOLDER_ID_MERCH
+  const configuredId = isMerch
+    ? (scriptProperties.getProperty('RECEIPT_FOLDER_ID_MERCH') || MERCH_RECEIPT_FOLDER_ID)
+    : (scriptProperties.getProperty('RECEIPT_FOLDER_ID_REGISTRATION') || REGISTRATION_RECEIPT_FOLDER_ID);
+
   if (!configuredId || configuredId.indexOf('PASTE_YOUR_') === 0) {
     return DriveApp.getRootFolder();
   }
@@ -295,9 +307,17 @@ function jsonResponse_(obj) {
 }
 
 function testDriveAccess() {
-  const folder = getReceiptFolder_();
+  const folder = getReceiptFolder_('youth_registration');
   const testBlob = Utilities.newBlob('test', 'text/plain', 'auth_test.txt');
   const file = folder.createFile(testBlob);
   file.setTrashed(true);
   Logger.log('Drive write access confirmed: ' + folder.getName());
+}
+
+function testMerchDriveAccess() {
+  const folder = getReceiptFolder_('merch_order');
+  const testBlob = Utilities.newBlob('test', 'text/plain', 'auth_test_merch.txt');
+  const file = folder.createFile(testBlob);
+  file.setTrashed(true);
+  Logger.log('Merch drive write access confirmed: ' + folder.getName());
 }
