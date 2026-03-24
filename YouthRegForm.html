@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plaridel Youth Camp 2026 — Delegate Registration</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f4f9;color:#1a1a2e;min-height:100vh}
+.page-wrap{max-width:760px;margin:0 auto;padding:2rem 1rem 4rem}
+
+/* Header */
+.brand-header{text-align:center;padding:2rem 1rem 1.5rem;background:#fff;border-radius:12px;border:1px solid #dce6f0;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(17,80,160,.06)}
+.brand-logo{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#1150A0,#1E78D4);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 4px 14px rgba(17,80,160,.3)}
+.brand-logo svg{width:28px;height:28px;color:#fff;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.brand-header h1{font-size:18px;font-weight:700;color:#0a2750;letter-spacing:.04em}
+.brand-header p{font-size:13px;color:#5a7a9a;margin-top:4px}
+
+/* Stepper */
+.stepper{display:flex;align-items:center;justify-content:center;margin-bottom:1.75rem;gap:0}
+.step-item{display:flex;align-items:center;gap:0}
+.step-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;border:2px solid #dce6f0;background:#fff;color:#8aabca;transition:all .25s;flex-shrink:0}
+.step-circle.active{background:#1150A0;border-color:#1150A0;color:#fff;box-shadow:0 3px 10px rgba(17,80,160,.3)}
+.step-circle.done{background:#1E78D4;border-color:#1E78D4;color:#fff}
+.step-label{font-size:12px;color:#8aabca;margin-left:8px;margin-right:6px;white-space:nowrap;font-weight:500}
+.step-label.active{color:#1150A0;font-weight:600}
+.step-label.done{color:#1E78D4}
+.step-line{width:40px;height:2px;background:#dce6f0;margin:0 4px;flex-shrink:0;transition:background .25s}
+.step-line.done{background:#1E78D4}
+
+/* Notice */
+.notice-box{background:#EBF4FD;border:1px solid #b3d4f0;border-left:4px solid #1E78D4;border-radius:8px;padding:.9rem 1rem;margin-bottom:1.25rem;font-size:13px;color:#1a3a5c;line-height:1.6}
+.notice-box strong{color:#0a2750;font-weight:600;display:block;margin-bottom:6px}
+.accom-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:.4rem 0}
+.accom-badge{background:#1150A0;color:#fff;border-radius:4px;padding:3px 10px;font-size:12px;font-weight:600}
+.special-link{color:#1150A0;text-decoration:underline;cursor:pointer;font-weight:500}
+
+/* Cards */
+.card{background:#fff;border:1px solid #dce6f0;border-radius:12px;padding:1.4rem;margin-bottom:1.25rem;box-shadow:0 1px 6px rgba(17,80,160,.04)}
+.card-title{font-size:14px;font-weight:700;color:#0a2750;margin-bottom:1rem;padding-bottom:.65rem;border-bottom:1px solid #eef2f7;display:flex;align-items:center;gap:8px}
+.card-title svg{width:16px;height:16px;color:#1E78D4;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* Form rows */
+.form-row{display:grid;gap:14px;margin-bottom:14px}
+.form-row.col2{grid-template-columns:1fr 1fr}
+.form-row.col3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12px;color:#5a7a9a;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.field label .req{color:#e24b4a;margin-left:2px}
+.field input,.field select,.field textarea{width:100%;padding:9px 12px;font-size:13.5px;border:1.5px solid #dce6f0;border-radius:8px;background:#fff;color:#1a1a2e;outline:none;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#1E78D4;box-shadow:0 0 0 3px rgba(30,120,212,.1)}
+.field input.readonly-field{background:#f5f8fc;color:#8aabca;cursor:not-allowed}
+.field textarea{resize:vertical;min-height:68px;line-height:1.6}
+.field input::placeholder,.field textarea::placeholder{color:#b0c4d8}
+
+/* Radio */
+.radio-group{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+.radio-opt{display:flex;align-items:flex-start;gap:9px;font-size:13px;cursor:pointer;padding:8px 12px;border:1.5px solid #dce6f0;border-radius:8px;background:#fff;transition:all .15s;line-height:1.45}
+.radio-opt:hover{border-color:#1E78D4;background:#f0f7fd}
+.radio-opt.selected{border-color:#1150A0;background:#EBF4FD}
+.radio-opt.selected label{color:#0a2750;font-weight:500}
+.radio-opt input[type=radio]{accent-color:#1150A0;width:15px;height:15px;flex-shrink:0;margin-top:1px;cursor:pointer}
+.radio-opt label{cursor:pointer;color:#3a5a7a}
+
+/* Delegate tabs */
+.delegate-tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.del-tab{padding:6px 16px;font-size:12.5px;font-weight:600;border:1.5px solid #dce6f0;border-radius:20px;cursor:pointer;background:#fff;color:#5a7a9a;transition:all .15s;font-family:inherit}
+.del-tab:hover{border-color:#1E78D4;color:#1150A0}
+.del-tab.active{background:#1150A0;color:#fff;border-color:#1150A0;box-shadow:0 2px 8px rgba(17,80,160,.25)}
+
+/* Summary */
+.summary-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:1rem}
+.metric-card{background:#f0f4f9;border-radius:8px;padding:.9rem;text-align:center;border:1px solid #dce6f0}
+.metric-card .m-label{font-size:11px;color:#5a7a9a;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.metric-card .m-val{font-size:26px;font-weight:700;color:#0a2750}
+.section-sep{height:1px;background:#eef2f7;margin:1rem 0}
+.fee-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #eef2f7;font-size:13.5px}
+.fee-row:last-child{border-bottom:none;font-weight:700;font-size:15px}
+.fee-label{color:#3a5a7a}
+.fee-note{color:#8aabca;font-size:12px}
+.fee-total{color:#1150A0;font-size:16px;font-weight:700}
+
+/* Upload */
+.upload-box{border:2px dashed #b3d4f0;border-radius:10px;padding:1.5rem;text-align:center;cursor:pointer;background:#f5faff;transition:all .15s}
+.upload-box:hover{border-color:#1E78D4;background:#EBF4FD}
+.upload-icon{width:36px;height:36px;margin:0 auto 10px;color:#8aabca}
+.upload-icon svg{width:36px;height:36px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.upload-box p{font-size:13px;color:#5a7a9a;line-height:1.5}
+.upload-box .uploaded-name{font-size:13px;color:#1150A0;margin-top:5px;font-weight:500}
+
+/* Info inline */
+.info-inline{display:flex;align-items:flex-start;gap:8px;background:#EBF4FD;border:1px solid #b3d4f0;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;font-size:12.5px;color:#1a3a5c;line-height:1.6}
+.info-inline svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:#1E78D4}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:1.75rem}
+.btn{padding:10px 24px;font-size:13.5px;font-weight:600;border-radius:8px;cursor:pointer;border:1.5px solid #dce6f0;background:#fff;color:#3a5a7a;transition:all .15s;font-family:inherit;letter-spacing:.01em}
+.btn:hover{background:#f0f4f9;border-color:#1E78D4;color:#1150A0}
+.btn.primary{background:#1150A0;color:#fff;border-color:#1150A0;box-shadow:0 3px 10px rgba(17,80,160,.3)}
+.btn.primary:hover{background:#0a2750}
+.btn.primary:active,.btn:active{transform:scale(.98)}
+.btn.danger{border-color:#f5c1c1;color:#e24b4a}
+.btn.danger:hover{background:#fff5f5;border-color:#e24b4a}
+.add-btn-row{display:flex;gap:8px;margin-top:.75rem;flex-wrap:wrap}
+
+/* Done */
+.done-card{text-align:center;padding:3.5rem 2rem}
+.done-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#1150A0,#1E78D4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;box-shadow:0 6px 20px rgba(17,80,160,.3)}
+.done-icon svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.done-card h2{font-size:22px;font-weight:700;color:#0a2750;margin-bottom:.75rem}
+.done-card p{font-size:14px;color:#5a7a9a;line-height:1.7;max-width:420px;margin:0 auto}
+.done-ref{margin-top:1.25rem;background:#f0f4f9;border-radius:8px;padding:.85rem 1.25rem;display:inline-block;font-size:13px;color:#3a5a7a}
+.done-ref strong{color:#1150A0}
+
+/* Responsive */
+@media(max-width:560px){
+  .form-row.col2,.form-row.col3{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .step-label{display:none}
+  .btn-row{flex-direction:column-reverse}
+  .btn{width:100%;justify-content:center;text-align:center}
+}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 2L12 22M2 12L22 12"/></svg>
+    </div>
+    <h1>PLARIDEL YOUTH CAMP 2026</h1>
+    <p>Delegate Registration Form</p>
+  </div>
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step-item">
+      <div class="step-circle active" id="sc1">1</div>
+      <span class="step-label active" id="sl1">Church</span>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step-item">
+      <div class="step-circle" id="sc2">2</div>
+      <span class="step-label" id="sl2">Head</span>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step-item">
+      <div class="step-circle" id="sc3">3</div>
+      <span class="step-label" id="sl3">Delegates</span>
+    </div>
+    <div class="step-line" id="line3"></div>
+    <div class="step-item">
+      <div class="step-circle" id="sc4">4</div>
+      <span class="step-label" id="sl4">Payment</span>
+    </div>
+    <div class="step-line" id="line4"></div>
+    <div class="step-item">
+      <div class="step-circle" id="sc5">5</div>
+      <span class="step-label" id="sl5">Done</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: Church Information -->
+  <div id="step1">
+
+    <div class="notice-box">
+      <strong>
+        <svg style="width:14px;height:14px;display:inline;vertical-align:middle;margin-right:5px;fill:none;stroke:#1E78D4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Accommodation Notice
+      </strong>
+      Once limits are reached, delegates will be accommodated at the overflow church nearby. Register early to secure your spot on campus!
+      <div style="margin-top:7px">
+        For pastors, pastor's wife, missionaries and missionary's wife —
+        <span class="special-link" onclick="window.location.href='PastorsMissionariesReg.html';">use the special registration link</span>.
+      </div>
+    </div>
+
+    <!-- Church Info -->
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M2 22h20M3 22V8l9-6 9 6v14M10 22V16h4v6"/></svg>
+        Church Information
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Church Name <span class="req">*</span></label>
+          <input type="text" id="churchName" placeholder="Search for a church" oninput="updateChurch()" />
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Pastor Name</label>
+          <input type="text" id="pastorName" placeholder="Enter Pastor Name" />
+        </div>
+        <div class="field">
+          <label>Church Address</label>
+          <input type="text" id="churchAddress" placeholder="Enter Church Address" />
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn primary" onclick="goStep2()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Delegation Head -->
+  <div id="step2" style="display:none">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Delegation Head
+      </div>
+      <div class="info-inline">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Delegation Code and further instructions will be sent to the delegation head's email address.
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Delegation Head Name <span class="req">*</span></label>
+          <input type="text" id="delHead" placeholder="Enter Delegation Head Name" />
+        </div>
+        <div class="field">
+          <label>Delegation Head Email <span class="req">*</span></label>
+          <input type="email" id="delHeadEmail" placeholder="Enter Delegation Head Email" />
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="goStep1()">&larr; Back</button>
+      <button class="btn primary" onclick="goStep3()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Delegation Information -->
+  <div id="step3" style="display:none">
+
+    <!-- Delegates -->
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Delegation Information
+      </div>
+      <div class="delegate-tabs" id="delTabs"></div>
+      <div id="delegateForms"></div>
+      <div class="add-btn-row">
+        <button class="btn" onclick="addDelegate()" style="font-size:12.5px;padding:7px 16px">+ Add Delegate</button>
+        <button class="btn danger" onclick="removeDelegate()" id="removeBtn" style="font-size:12.5px;padding:7px 16px;display:none">Remove Last</button>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="goStep2()">&larr; Back</button>
+      <button class="btn primary" onclick="goStep4()">Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Payment -->
+  <div id="step4" style="display:none">
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Summary
+      </div>
+      <div style="font-size:12px;font-weight:600;color:#5a7a9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.65rem">Number of Delegates</div>
+      <div class="summary-grid">
+        <div class="metric-card"><div class="m-label">Men</div><div class="m-val" id="sum-men">0</div></div>
+        <div class="metric-card"><div class="m-label">Ladies</div><div class="m-val" id="sum-ladies">0</div></div>
+        <div class="metric-card"><div class="m-label">Total</div><div class="m-val" id="sum-total">0</div></div>
+      </div>
+      <div class="section-sep"></div>
+      <div style="font-size:12px;font-weight:600;color:#5a7a9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem">Fees</div>
+      <div class="fee-row">
+        <span class="fee-label">Camp Fee</span>
+        <span class="fee-note">200 per delegate</span>
+      </div>
+      <div class="fee-row">
+        <span class="fee-label">Total Fee</span>
+        <span class="fee-total" id="sum-fee">0</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        Payment
+      </div>
+      <div class="field" style="margin-bottom:14px">
+        <label>Payment Method <span class="req">*</span></label>
+        <div class="radio-group" id="payMethodGroup">
+          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this)">
+            <input type="radio" name="payMethod" value="GCash" />
+            <label>GCash</label>
+          </div>
+          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this)">
+            <input type="radio" name="payMethod" value="Bank Transfer" />
+            <label>Bank Transfer</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Reference / Transaction No. <span class="req">*</span></label>
+          <input type="text" id="refNo" placeholder="Enter Reference or Transaction Number" />
+        </div>
+        <div class="field">
+          <label>Amount Paid <span class="req">*</span></label>
+          <input type="number" id="amtPaid" placeholder="Enter Amount Paid" min="0" />
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Date of Payment <span class="req">*</span></label>
+          <input type="date" id="payDate" />
+        </div>
+        <div class="field">
+          <label>Account Name Used</label>
+          <input type="text" id="acctName" placeholder="Enter Account Name Used" />
+        </div>
+      </div>
+      <div class="field" style="margin-top:4px">
+        <label>Receipt / Screenshot <span class="req">*</span></label>
+        <div class="upload-box" onclick="document.getElementById('receiptFile').click()">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          </div>
+          <p id="uploadLabel">Attach GCash screenshot or bank deposit receipt here</p>
+          <p class="uploaded-name" id="uploadedName" style="display:none"></p>
+        </div>
+        <input type="file" id="receiptFile" style="display:none" accept="image/*,.pdf" onchange="handleUpload(this)" />
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="goStep3()">&larr; Back</button>
+      <button class="btn primary" onclick="goStep5()">Submit Registration &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Thank You -->
+  <div id="step5" style="display:none">
+    <div class="card done-card">
+      <div class="done-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Registration Submitted!</h2>
+      <p>Thank you for registering for <strong>Plaridel Youth Camp 2026 — IDENTITY</strong>.</p>
+      <button class="btn primary" onclick="alert('Program download link would go here')" style="margin-top:1.5rem;display:inline-flex;align-items:center;gap:8px">
+        <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 15m0 0l4.5-4.5M12 6v9"/></svg>
+        Download Program
+      </button>
+      <p style="margin-top:1.5rem;font-size:14px;color:#1a3a5c;font-weight:500">Get ready for an amazing experience at <strong>Plaridel Youth Camp 2026</strong>. See you at camp!</p>
+    </div>
+  </div>
+
+</div><!-- end page-wrap -->
+
+<script>
+var delegates = [createDelegate(1)];
+var activeIdx = 0;
+var SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxjCvTBx3aJYBVofy9pcM54YoB3KJQQX1tN8M2B2n1bhQ4ZRAyPq_zA4l7Ze_7o9eCuSA/exec';
+
+var ministries = [
+  'Music Ministry','Deaf Ministry','Children Ministry','Young People Ministry',
+  'Discipleship','Soul Winning Ministry','Extension Ministry'
+];
+var educOpts = [
+  'Elementary','High School','Senior High School',
+  'Vocational / Tech-Voc','College Undergraduate','College Graduate','Post Graduate'
+];
+
+// Church database — add your churches here
+var churchDB = {
+  'plaridel bible christian church': ['Plaridel Bible Christian Church','Pastor Juan dela Cruz','Plaridel, Bulacan'],
+  // Add more entries as needed:
+  // 'church name lowercase': ['Church Name','Pastor Name','Address'],
+};
+
+function createDelegate(n){
+  return {
+    id:n, firstName:'', middleName:'', lastName:'', nickname:'',
+    gender:'', birthDate:'', education:'', contact:'', email:'',
+    emergency:'', emergencyNum:'', ministry:'',
+    accommodation:'', firstTime:''
+  };
+}
+
+/* ─── Tabs ─── */
+function renderTabs(){
+  var tabs = document.getElementById('delTabs');
+  tabs.innerHTML = '';
+  delegates.forEach(function(d,i){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'del-tab' + (i === activeIdx ? ' active' : '');
+    var name = [d.firstName, d.lastName].filter(Boolean).join(' ') || 'Delegate '+(i+1);
+    btn.textContent = name;
+    btn.onclick = (function(idx){ return function(){ activeIdx=idx; renderTabs(); renderForm(); }; })(i);
+    tabs.appendChild(btn);
+  });
+  var removeBtn = document.getElementById('removeBtn');
+  removeBtn.style.display = delegates.length > 1 ? 'inline-block' : 'none';
+}
+
+/* ─── Form ─── */
+function renderForm(){
+  var d = delegates[activeIdx];
+  var el = document.getElementById('delegateForms');
+  el.innerHTML =
+    '<div style="font-size:12px;font-weight:600;color:#5a7a9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem">'+
+    'Delegate '+(activeIdx+1)+' of '+delegates.length+'</div>'+
+
+    '<div class="form-row col3">'+
+    fld('First Name','text','fn',d.firstName,'Enter Your First Name',true)+
+    fld('Middle Name','text','mn',d.middleName,'Enter Your Middle Name',true)+
+    fld('Last Name','text','ln',d.lastName,'Enter Your Last Name',true)+
+    '</div>'+
+
+    '<div class="form-row col2">'+
+    fld('Nickname','text','nn',d.nickname,'Enter Your Nickname',true)+
+    selFld('Gender','gn',d.gender,['Male','Female'],'Select Your Gender',true)+
+    '</div>'+
+
+    '<div class="form-row col2">'+
+    '<div class="field"><label>Birth Date <span class="req">*</span></label>'+
+    '<input type="date" id="bd" value="'+esc(d.birthDate)+'" onchange="save(\'birthDate\',this.value)" /></div>'+
+    selFld('Educational Attainment','edu',d.education,educOpts,'Select Your Attainment',false)+
+    '</div>'+
+
+    '<div class="form-row col2">'+
+    fld('Contact Number','tel','cn',d.contact,'Enter Your Contact Number',true)+
+    fld('Email','email','em',d.email,'Enter Your Email',true)+
+    '</div>'+
+
+    '<div class="form-row col2">'+
+    fld('Emergency Contact Person','text','ec',d.emergency,"Enter Emergency Contact's Name",true)+
+    fld('Emergency Contact Number','tel','ecn',d.emergencyNum,"Enter Emergency Contact's Number",true)+
+    '</div>'+
+
+
+    selFld('Ministry Interest','mi',d.ministry,ministries,'Please select a ministry',true)+
+
+    '<div class="form-row col2" style="margin-top:14px">'+
+    radioBlock('Accommodation','accommodation',d.accommodation,[
+      'Yes, I would like to be accommodated by the provided facilities.',
+      'No, I have my own arrangements.'
+    ])+
+    radioBlock('First Time?','firstTime',d.firstTime,[
+      "Yes, it's my first time joining the camp!",
+      'No, I have been here before.'
+    ])+
+    '</div>';
+}
+
+function fld(lbl,type,id,val,ph,req){
+  var key = {
+    'First Name':'firstName','Middle Name':'middleName','Last Name':'lastName',
+    'Nickname':'nickname','Contact Number':'contact','Email':'email',
+    'Emergency Contact Person':'emergency','Emergency Contact Number':'emergencyNum'
+  }[lbl]||'';
+  return '<div class="field"><label>'+lbl+(req?'<span class="req">*</span>':'')+
+  '</label><input type="'+type+'" id="'+id+'" value="'+esc(val)+
+  '" placeholder="'+ph+'" onchange="save(\''+key+'\',this.value)" onblur="refreshTab()" /></div>';
+}
+
+function selFld(lbl,id,val,opts,ph,req){
+  var key={'Gender':'gender','Educational Attainment':'education','Ministry Interest':'ministry'}[lbl]||'';
+  var ops='<option value="">'+ph+'</option>';
+  opts.forEach(function(o){ ops+='<option value="'+o+'"'+(val===o?' selected':'')+'>'+o+'</option>'; });
+  return '<div class="field"><label>'+lbl+(req?'<span class="req">*</span>':'')+
+  '</label><select id="'+id+'" onchange="save(\''+key+'\',this.value);updateSummary()">'+ops+'</select></div>';
+}
+
+function radioBlock(lbl,key,val,opts){
+  var html='<div class="field"><label>'+lbl+'</label><div class="radio-group">';
+  opts.forEach(function(o){
+    var sel = val===o;
+    html+='<div class="radio-opt'+(sel?' selected':'')+'" onclick="saveRadio(\''+key+'\',\''+o.replace(/'/g,"\\'")+'\',this)">'+
+    '<input type="radio" name="'+key+'_'+activeIdx+'" value="'+esc(o)+'"'+(sel?' checked':'')+' />'+
+    '<label>'+o+'</label></div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+function save(key,val){ if(key) delegates[activeIdx][key]=val; }
+
+function saveRadio(key,val,el){
+  delegates[activeIdx][key]=val;
+  var grp=el.closest('.radio-group');
+  grp.querySelectorAll('.radio-opt').forEach(function(r){r.classList.remove('selected');});
+  el.classList.add('selected');
+  el.querySelector('input[type=radio]').checked=true;
+  updateSummary();
+}
+
+function selectRadio(groupId,el){
+  var grp=document.getElementById(groupId);
+  grp.querySelectorAll('.radio-opt').forEach(function(r){r.classList.remove('selected');});
+  el.classList.add('selected');
+  el.querySelector('input[type=radio]').checked=true;
+}
+
+function refreshTab(){ renderTabs(); }
+
+/* ─── Add / Remove ─── */
+function addDelegate(){
+  delegates.push(createDelegate(delegates.length+1));
+  activeIdx=delegates.length-1;
+  renderTabs(); renderForm(); updateSummary();
+}
+function removeDelegate(){
+  if(delegates.length<=1) return;
+  delegates.pop();
+  if(activeIdx>=delegates.length) activeIdx=delegates.length-1;
+  renderTabs(); renderForm(); updateSummary();
+}
+
+/* ─── Church lookup ─── */
+function updateChurch(){
+  var v=(document.getElementById('churchName').value||'').toLowerCase().trim();
+  var match=churchDB[v]||null;
+  document.getElementById('pastorName').value=match?match[1]:'';
+  document.getElementById('churchAddress').value=match?match[2]:'';
+}
+
+/* ─── Summary ─── */
+function updateSummary(){
+  var men=0,ladies=0;
+  delegates.forEach(function(d){ if(d.gender==='Male') men++; else if(d.gender==='Female') ladies++; });
+  var total=delegates.length;
+  var e1=document.getElementById('sum-men');
+  var e2=document.getElementById('sum-ladies');
+  var e3=document.getElementById('sum-total');
+  var e4=document.getElementById('sum-fee');
+  if(e1) e1.textContent=men;
+  if(e2) e2.textContent=ladies;
+  if(e3) e3.textContent=total;
+  if(e4) e4.textContent=Number(total*200).toLocaleString();
+  updateAccommodation();
+}
+
+function updateAccommodation(){
+  var menCount=0,ladiesCount=0;
+  delegates.forEach(function(d){ 
+    if(d.gender==='Male') menCount++; 
+    else if(d.gender==='Female') ladiesCount++; 
+  });
+  var menRemaining=Math.max(0,500-menCount);
+  var ladiesRemaining=Math.max(0,500-ladiesCount);
+  var menEl=document.getElementById('accomMen');
+  var ladiesEl=document.getElementById('accomLadies');
+  if(menEl) menEl.textContent=menRemaining+' Men';
+  if(ladiesEl) ladiesEl.textContent=ladiesRemaining+' Ladies';
+}
+
+/* ─── Delegation head ─── */
+function updateDelHead(){
+  var sel=document.getElementById('delHead');
+  if(!sel) return;
+  var cur=sel.value;
+  sel.innerHTML='<option value="">Select your delegation head</option>';
+  delegates.forEach(function(d,i){
+    var name=[d.firstName,d.lastName].filter(Boolean).join(' ')||'Delegate '+(i+1);
+    var opt=document.createElement('option');
+    opt.value=i; opt.textContent=name;
+    if(cur==i) opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+
+/* ─── Upload ─── */
+function handleUpload(inp){
+  if(inp.files&&inp.files[0]){
+    document.getElementById('uploadedName').textContent=inp.files[0].name;
+    document.getElementById('uploadedName').style.display='block';
+    document.getElementById('uploadLabel').textContent='File attached:';
+  }
+}
+
+function postToSheets(payload){
+  if(!SHEETS_WEB_APP_URL || SHEETS_WEB_APP_URL.indexOf('PASTE_YOUR_') === 0){
+    return Promise.reject(new Error('Google Sheets Web App URL is not configured.'));
+  }
+  return fetch(SHEETS_WEB_APP_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  })
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      if(!data || data.ok !== true){
+        throw new Error((data && data.error) ? data.error : 'Server rejected submission.');
+      }
+      return data;
+    });
+}
+
+function fileToBase64(file){
+  return new Promise(function(resolve,reject){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var result = (e && e.target && e.target.result) ? String(e.target.result) : '';
+      var commaIdx = result.indexOf(',');
+      resolve(commaIdx >= 0 ? result.slice(commaIdx + 1) : result);
+    };
+    reader.onerror = function(){ reject(new Error('Failed to read receipt file.')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+function validateYouthSubmission(){
+  var churchName = (document.getElementById('churchName').value || '').trim();
+  var delHead = (document.getElementById('delHead').value || '').trim();
+  var delHeadEmail = (document.getElementById('delHeadEmail').value || '').trim();
+  var payMethod = document.querySelector('input[name="payMethod"]:checked');
+  var refNo = (document.getElementById('refNo').value || '').trim();
+  var amtPaid = (document.getElementById('amtPaid').value || '').trim();
+  var payDate = (document.getElementById('payDate').value || '').trim();
+  var receiptInput = document.getElementById('receiptFile');
+  var hasReceipt = receiptInput && receiptInput.files && receiptInput.files.length > 0;
+  if(!churchName || !delHead || !delHeadEmail || !payMethod || !refNo || !amtPaid || !payDate || !hasReceipt){
+    alert('Please complete all required Church, Head, Delegate, and Payment details before submitting.');
+    return false;
+  }
+  return true;
+}
+
+/* ─── Steps ─── */
+function setStep(n){
+  var steps=['step1','step2','step3','step4','step5'];
+  steps.forEach(function(s){ document.getElementById(s).style.display='none'; });
+  if(n===1) document.getElementById('step1').style.display='block';
+  else if(n===2) document.getElementById('step2').style.display='block';
+  else if(n===3) document.getElementById('step3').style.display='block';
+  else if(n===4) document.getElementById('step4').style.display='block';
+  else if(n===5) document.getElementById('step5').style.display='block';
+  [1,2,3,4,5].forEach(function(i){
+    var c=document.getElementById('sc'+i);
+    var l=document.getElementById('sl'+i);
+    c.className='step-circle'+(i<n?' done':i===n?' active':'');
+    l.className='step-label'+(i<n?' done':i===n?' active':'');
+    if(i===n){ c.textContent=i; }
+    else if(i<n){ c.innerHTML='<svg style="width:14px;height:14px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>'; }
+    else{ c.textContent=i; }
+  });
+  [1,2,3,4].forEach(function(i){
+    var ln=document.getElementById('line'+i);
+    if(ln) ln.className='step-line'+(i<n?' done':'');
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goStep2(){ setStep(2); }
+function goStep3(){ setStep(3); }
+function goStep4(){
+  updateSummary();
+  setStep(4);
+}
+function goStep1(){ setStep(1); }
+async function goStep5(){
+  if(!validateYouthSubmission()) return;
+
+  var submitBtn = document.querySelector('#step4 .btn.primary');
+  if(submitBtn){
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+  }
+
+  var payMethodEl = document.querySelector('input[name="payMethod"]:checked');
+  var men = 0;
+  var ladies = 0;
+  delegates.forEach(function(d){
+    if(d.gender === 'Male') men++;
+    else if(d.gender === 'Female') ladies++;
+  });
+
+  try {
+    var receiptInput = document.getElementById('receiptFile');
+    var receiptFile = receiptInput && receiptInput.files && receiptInput.files[0] ? receiptInput.files[0] : null;
+    if(receiptFile && receiptFile.size > 3 * 1024 * 1024){
+      alert('Receipt file is too large. Please upload an image under 3MB.');
+      return;
+    }
+    var receiptBase64 = '';
+    if(receiptFile){
+      receiptBase64 = await fileToBase64(receiptFile);
+    }
+
+    var payload = {
+      formType: 'youth_registration',
+      targetSheet: 'Youth Registration',
+      submittedAt: new Date().toISOString(),
+      churchName: (document.getElementById('churchName').value || '').trim(),
+      pastorName: (document.getElementById('pastorName').value || '').trim(),
+      churchAddress: (document.getElementById('churchAddress').value || '').trim(),
+      delegationHeadName: (document.getElementById('delHead').value || '').trim(),
+      delegationHeadEmail: (document.getElementById('delHeadEmail').value || '').trim(),
+      delegates: delegates,
+      summary: {
+        men: men,
+        ladies: ladies,
+        total: delegates.length,
+        totalFee: delegates.length * 200
+      },
+      payment: {
+        method: payMethodEl ? payMethodEl.value : '',
+        referenceNo: (document.getElementById('refNo').value || '').trim(),
+        amountPaid: Number(document.getElementById('amtPaid').value || 0),
+        paymentDate: (document.getElementById('payDate').value || '').trim(),
+        accountName: (document.getElementById('acctName').value || '').trim(),
+        receiptFileName: receiptFile ? receiptFile.name : '',
+        receiptMimeType: receiptFile ? (receiptFile.type || 'application/octet-stream') : '',
+        receiptFileBase64: receiptBase64
+      }
+    };
+
+    await postToSheets(payload);
+    setStep(5);
+  } catch(err) {
+    alert('Submission failed: ' + (err && err.message ? err.message : 'Unknown error'));
+  } finally {
+    if(submitBtn){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Registration →';
+    }
+  }
+}
+
+/* ─── Init ─── */
+renderTabs();
+renderForm();
+updateSummary();
+</script>
+</body>
+</html>

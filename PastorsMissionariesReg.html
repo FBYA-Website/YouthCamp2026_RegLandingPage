@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plaridel Youth Camp 2026 — Special Registration</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:linear-gradient(135deg,#e8f0fb 0%,#f0f4f9 50%,#e8f5f0 100%);color:#1a1a2e;min-height:100vh}
+.page-wrap{max-width:680px;margin:0 auto;padding:2rem 1rem 4rem}
+
+/* Header */
+.brand-header{text-align:center;padding:2.25rem 1.5rem 1.75rem;background:#fff;border-radius:16px;border:1px solid rgba(17,80,160,.1);margin-bottom:1.5rem;box-shadow:0 4px 24px rgba(17,80,160,.08);position:relative;overflow:hidden}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(30,120,212,.06) 0%,transparent 70%);border-radius:50%}
+.brand-header::after{content:'';position:absolute;bottom:-40px;left:-40px;width:140px;height:140px;background:radial-gradient(circle,rgba(17,80,160,.04) 0%,transparent 70%);border-radius:50%}
+.brand-logo{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg,#1150A0,#1E78D4);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 6px 20px rgba(17,80,160,.3)}
+.brand-logo svg{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.brand-header h1{font-size:18px;font-weight:800;color:#0a2750;letter-spacing:.05em}
+.brand-header .subtitle{font-size:13px;color:#6b8aaa;margin-top:4px;font-weight:500}
+.special-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#EBF4FD,#f0f7ff);border:1px solid rgba(17,80,160,.2);color:#1150A0;font-size:11.5px;font-weight:700;padding:5px 14px;border-radius:20px;margin-top:12px;letter-spacing:.03em}
+.special-badge svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Progress */
+.progress-wrap{margin-bottom:1.5rem;background:#fff;border-radius:12px;padding:1rem 1.25rem;border:1px solid rgba(17,80,160,.08);box-shadow:0 2px 10px rgba(17,80,160,.04)}
+.progress-steps{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;position:relative}
+.progress-steps::before{content:'';position:absolute;top:14px;left:14px;right:14px;height:2px;background:#e0e8f4;z-index:0}
+.progress-steps-fill{position:absolute;top:14px;left:14px;height:2px;background:linear-gradient(90deg,#1150A0,#1E78D4);z-index:1;transition:width .4s ease}
+.step-dot{width:28px;height:28px;border-radius:50%;background:#e0e8f4;color:#8aabca;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:2;position:relative;transition:all .3s;flex-shrink:0}
+.step-dot.active{background:#1150A0;color:#fff;box-shadow:0 3px 10px rgba(17,80,160,.35)}
+.step-dot.done{background:#1E78D4;color:#fff}
+.step-dot.done::after{content:'✓';font-size:12px}
+.step-dot.done span{display:none}
+.progress-label{font-size:11.5px;color:#8aabca;text-align:right;font-weight:600;margin-top:4px}
+
+/* Cards */
+.card{background:#fff;border:1px solid rgba(17,80,160,.08);border-radius:16px;padding:1.5rem;margin-bottom:1.25rem;box-shadow:0 2px 14px rgba(17,80,160,.05)}
+.step-card{display:none}
+.step-card.active{display:block}
+.card-title{font-size:14px;font-weight:700;color:#0a2750;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid #eef3f9;display:flex;align-items:center;gap:9px}
+.card-title-icon{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#EBF4FD,#daeeff);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.card-title-icon svg{width:15px;height:15px;color:#1150A0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Role selector */
+.role-label{font-size:11.5px;color:#6b8aaa;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.role-card{padding:14px 15px;border:2px solid #e0e8f4;border-radius:12px;cursor:pointer;background:#fff;transition:all .2s;display:flex;align-items:center;gap:11px;user-select:none}
+.role-card:hover{border-color:#1E78D4;background:#f5faff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(17,80,160,.1)}
+.role-card.selected{border-color:#1150A0;background:linear-gradient(135deg,#EBF4FD,#f0f7ff);box-shadow:0 3px 12px rgba(17,80,160,.15)}
+.role-dot{width:18px;height:18px;border-radius:50%;border:2px solid #b0c4d8;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;position:relative}
+.role-card.selected .role-dot{background:#1150A0;border-color:#1150A0}
+.role-card.selected .role-dot::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff;position:absolute}
+.role-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.role-name{font-size:13px;font-weight:700;color:#1a2a3a;line-height:1.3}
+.role-desc{font-size:11px;color:#8aabca;margin-top:2px;font-weight:500}
+
+/* Form */
+.form-row{display:grid;gap:13px;margin-bottom:13px}
+.form-row.col2{grid-template-columns:1fr 1fr}
+.form-row.col3{grid-template-columns:1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;color:#6b8aaa;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.field label .req{color:#e24b4a;margin-left:2px}
+.field input,.field select,.field textarea{width:100%;padding:9px 12px;font-size:13.5px;border:1.5px solid #e0e8f4;border-radius:9px;background:#fafcff;color:#1a1a2e;outline:none;transition:border-color .15s,box-shadow .15s,background .15s;font-family:inherit;font-weight:500}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#1E78D4;box-shadow:0 0 0 3px rgba(30,120,212,.1);background:#fff}
+.field textarea{resize:vertical;min-height:68px;line-height:1.6}
+.field input::placeholder,.field textarea::placeholder{color:#b8cfe0;font-weight:400}
+.field .field-hint{font-size:11px;color:#8aabca;margin-top:3px}
+
+/* Radio group */
+.radio-group{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+.radio-opt{display:flex;align-items:center;gap:9px;font-size:13px;cursor:pointer;padding:8px 12px;border:1.5px solid #e0e8f4;border-radius:9px;background:#fafcff;transition:all .15s;line-height:1.4;user-select:none}
+.radio-opt:hover{border-color:#1E78D4;background:#f5faff}
+.radio-opt.selected{border-color:#1150A0;background:linear-gradient(135deg,#EBF4FD,#f0f7ff)}
+.radio-opt.selected label{color:#0a2750;font-weight:600}
+.radio-opt input[type=radio]{accent-color:#1150A0;width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.radio-opt label{cursor:pointer;color:#3a5a7a;font-weight:500}
+.radio-inline{display:flex;flex-direction:row;gap:8px;flex-wrap:wrap;margin-top:4px}
+.radio-inline .radio-opt{flex:1;min-width:90px}
+
+/* Notice */
+.info-inline{display:flex;align-items:flex-start;gap:9px;background:linear-gradient(135deg,#EBF4FD,#f0f7ff);border:1px solid rgba(17,80,160,.15);border-radius:10px;padding:.8rem 1rem;margin-bottom:1rem;font-size:12.5px;color:#1a3a5c;line-height:1.6;font-weight:500}
+.info-inline svg{width:15px;height:15px;flex-shrink:0;margin-top:1px;fill:none;stroke:#1E78D4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* Fee display */
+.fee-display{background:linear-gradient(135deg,#f0f7ff,#e8f4fd);border:1px solid rgba(17,80,160,.12);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.fee-display .fee-lbl{font-size:13px;color:#5a7a9a;font-weight:700}
+.fee-display .fee-val{font-size:22px;font-weight:800;color:#1150A0}
+.fee-display .fee-sub{font-size:11px;color:#8aabca;margin-top:2px}
+
+/* Upload */
+.upload-box{border:2px dashed #b3d4f0;border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;background:#f5faff;transition:all .2s}
+.upload-box:hover{border-color:#1E78D4;background:#EBF4FD;transform:translateY(-1px)}
+.upload-box.has-file{border-color:#1150A0;background:linear-gradient(135deg,#EBF4FD,#f0f7ff)}
+.upload-icon{width:40px;height:40px;margin:0 auto 10px;background:rgba(30,120,212,.1);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.upload-icon svg{width:22px;height:22px;fill:none;stroke:#1E78D4;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+.upload-box p{font-size:13px;color:#5a7a9a;line-height:1.5;font-weight:500}
+.uploaded-name{font-size:13px;color:#1150A0;margin-top:5px;font-weight:700}
+.upload-sub{font-size:11.5px;color:#8aabca;margin-top:4px;font-weight:400!important}
+
+/* Buttons */
+.btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:1.75rem;flex-wrap:wrap}
+.btn{padding:11px 28px;font-size:13.5px;font-weight:700;border-radius:10px;cursor:pointer;border:2px solid #e0e8f4;background:#fff;color:#3a5a7a;transition:all .2s;font-family:inherit;letter-spacing:.01em}
+.btn:hover{background:#f5f8ff;border-color:#1E78D4;color:#1150A0;transform:translateY(-1px)}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:linear-gradient(135deg,#1150A0,#1E78D4);color:#fff;border:none;box-shadow:0 4px 14px rgba(17,80,160,.35);padding:11px 30px}
+.btn.primary:hover{background:linear-gradient(135deg,#0a2750,#1150A0);box-shadow:0 6px 20px rgba(17,80,160,.45);transform:translateY(-2px)}
+
+/* Validation error */
+.field-error{font-size:11.5px;color:#e24b4a;margin-top:3px;display:none;font-weight:600}
+.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:#e24b4a;background:#fff8f8}
+.field.has-error .field-error{display:block}
+.error-msg{font-size:11.5px;color:#e24b4a;margin-top:6px;display:none;font-weight:600}
+
+/* Done */
+.done-card{text-align:center;padding:3rem 2rem}
+.done-icon{width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,#1150A0,#1E78D4);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;box-shadow:0 8px 24px rgba(17,80,160,.35)}
+.done-icon svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.done-card h2{font-size:22px;font-weight:800;color:#0a2750;margin-bottom:.75rem}
+.done-card p{font-size:14px;color:#5a7a9a;line-height:1.7;max-width:440px;margin:0 auto;font-weight:500}
+.done-detail{margin-top:1.25rem;background:#f5f8ff;border:1px solid rgba(17,80,160,.1);border-radius:12px;padding:1rem 1.25rem;text-align:left}
+.done-detail-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eef3f9;font-size:13px}
+.done-detail-row:last-child{border-bottom:none}
+.done-detail-row .dk{color:#6b8aaa;font-weight:600}
+.done-detail-row .dv{color:#0a2750;font-weight:700}
+
+/* Footer */
+.form-footer{text-align:center;font-size:11.5px;color:#8aabca;margin-top:2rem;padding-top:1.25rem;border-top:1px solid rgba(17,80,160,.08);line-height:1.8;font-weight:500}
+
+/* Responsive */
+@media(max-width:560px){
+  .form-row.col2,.form-row.col3{grid-template-columns:1fr}
+  .role-grid{grid-template-columns:1fr 1fr}
+  .btn-row{flex-direction:column-reverse}
+  .btn{width:100%;text-align:center}
+  .radio-inline{flex-direction:column}
+}
+@media(max-width:380px){
+  .role-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="brand-header">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    </div>
+    <h1>PLARIDEL YOUTH CAMP 2026</h1>
+    <p class="subtitle">Special Registration Form</p>
+    <div style="margin-top:12px">
+      <span class="special-badge">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pastors, Pastor's Wife, Missionaries &amp; Missionary's Wife
+      </span>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-steps" id="progressSteps">
+      <div class="progress-steps-fill" id="progressFill" style="width:0%"></div>
+      <div class="step-dot active" id="dot1"><span>1</span></div>
+      <div class="step-dot" id="dot2"><span>2</span></div>
+      <div class="step-dot" id="dot3"><span>3</span></div>
+      <div class="step-dot" id="dot4"><span>4</span></div>
+      <div class="step-dot" id="dot5"><span>5</span></div>
+    </div>
+    <div class="progress-label" id="progressLabel">Step 1 of 5</div>
+  </div>
+
+  <!-- Form -->
+  <form id="mainForm" novalidate onsubmit="return false">
+
+    <!-- Step 1: Role -->
+    <div class="card step-card active" id="sectionRole">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        Role / Category
+      </div>
+      <div class="role-label">I AM REGISTERING AS <span style="color:#e24b4a">*</span></div>
+      <div class="role-grid" id="roleGrid">
+        <div class="role-card" data-role="Pastor" onclick="selectRole(this)">
+          <div class="role-dot"></div>
+          <div class="role-icon" style="background:#EBF4FD;color:#1150A0">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="role-name">Pastor</div>
+            <div class="role-desc">Senior or Lead pastor</div>
+          </div>
+        </div>
+        <div class="role-card" data-role="Pastor's Wife" onclick="selectRole(this)">
+          <div class="role-dot"></div>
+          <div class="role-icon" style="background:#F0EBF9;color:#534AB7">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <div>
+            <div class="role-name">Pastor's Wife</div>
+            <div class="role-desc">Spouse of pastor</div>
+          </div>
+        </div>
+        <div class="role-card" data-role="Missionary" onclick="selectRole(this)">
+          <div class="role-dot"></div>
+          <div class="role-icon" style="background:#E1F5EE;color:#0F6E56">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div>
+            <div class="role-name">Missionary</div>
+            <div class="role-desc">Full-time missionary</div>
+          </div>
+        </div>
+        <div class="role-card" data-role="Missionary's Wife" onclick="selectRole(this)">
+          <div class="role-dot"></div>
+          <div class="role-icon" style="background:#FAEEDA;color:#854F0B">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div class="role-name">Missionary's Wife</div>
+            <div class="role-desc">Spouse of missionary</div>
+          </div>
+        </div>
+      </div>
+      <div class="error-msg" id="roleError">Please select your role to continue.</div>
+    </div>
+
+    <!-- Step 2: Personal Info -->
+    <div class="card step-card" id="sectionPersonal">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        Personal Information
+      </div>
+      <div class="form-row col3">
+        <div class="field" id="f-firstName">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="First Name">
+          <span class="field-error">First name is required.</span>
+        </div>
+        <div class="field" id="f-middleName">
+          <label>Middle Name <span class="req">*</span></label>
+          <input type="text" id="middleName" placeholder="Middle Name">
+          <span class="field-error">Middle name is required.</span>
+        </div>
+        <div class="field" id="f-lastName">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="Last Name">
+          <span class="field-error">Last name is required.</span>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Nickname</label>
+          <input type="text" id="nickname" placeholder="Nickname">
+        </div>
+        <div class="field" id="f-gender">
+          <label>Gender <span class="req">*</span></label>
+          <div class="radio-inline" id="genderGroup">
+            <div class="radio-opt" onclick="selectRadio('genderGroup',this,'gender','Male')">
+              <input type="radio" name="gender"> <label>Male</label>
+            </div>
+            <div class="radio-opt" onclick="selectRadio('genderGroup',this,'gender','Female')">
+              <input type="radio" name="gender"> <label>Female</label>
+            </div>
+          </div>
+          <span class="field-error" id="genderError">Please select gender.</span>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field" id="f-birthDate">
+          <label>Birth Date <span class="req">*</span></label>
+          <input type="date" id="birthDate">
+          <span class="field-error">Birth date is required.</span>
+        </div>
+        <div class="field" id="f-civil">
+          <label>Civil Status <span class="req">*</span></label>
+          <div class="radio-inline" id="civilGroup">
+            <div class="radio-opt" onclick="selectRadio('civilGroup',this,'civil','Single')">
+              <input type="radio" name="civil"> <label>Single</label>
+            </div>
+            <div class="radio-opt" onclick="selectRadio('civilGroup',this,'civil','Married')">
+              <input type="radio" name="civil"> <label>Married</label>
+            </div>
+            <div class="radio-opt" onclick="selectRadio('civilGroup',this,'civil','Widowed')">
+              <input type="radio" name="civil"> <label>Widowed</label>
+            </div>
+          </div>
+          <span class="field-error" id="civilError">Please select civil status.</span>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field">
+          <label>Educational Attainment</label>
+          <select id="education">
+            <option value="">Select Attainment</option>
+            <option>High School</option>
+            <option>Vocational / Tech-Voc</option>
+            <option>Some College</option>
+            <option>College Graduate</option>
+            <option>Bachelor of Theology</option>
+            <option>Post Graduate</option>
+          </select>
+        </div>
+        <div class="field" id="f-contact">
+          <label>Contact Number <span class="req">*</span></label>
+          <input type="tel" id="contact" placeholder="Contact Number">
+          <span class="field-error">Contact number is required.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="f-email">
+          <label>Email Address <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="Email Address">
+          <span class="field-error">A valid email is required.</span>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field" id="f-ecPerson">
+          <label>Emergency Contact <span class="req">*</span></label>
+          <input type="text" id="ecPerson" placeholder="Contact Name">
+          <span class="field-error">Emergency contact name is required.</span>
+        </div>
+        <div class="field" id="f-ecNumber">
+          <label>Emergency Contact Number <span class="req">*</span></label>
+          <input type="tel" id="ecNumber" placeholder="Contact Number">
+          <span class="field-error">Emergency contact number is required.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Medical Conditions</label>
+          <textarea id="medical" placeholder="Enter conditions or N/A"></textarea>
+          <span class="field-hint">Leave blank or type N/A if none.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: Church/Ministry -->
+    <div class="card step-card" id="sectionChurch">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 22h20M3 22V8l9-6 9 6v14M10 22V16h4v6"/></svg>
+        </div>
+        Church / Ministry Information
+      </div>
+      <div class="form-row col2">
+        <div class="field" id="f-churchName">
+          <label>Church Name <span class="req">*</span></label>
+          <input type="text" id="churchName" placeholder="Church Name">
+          <span class="field-error">Church name is required.</span>
+        </div>
+        <div class="field">
+          <label>Church Address</label>
+          <input type="text" id="churchAddress" placeholder="Church Address">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="f-yearsMinistry">
+          <label>Years in Ministry <span class="req">*</span></label>
+          <input type="number" id="yearsMinistry" placeholder="Number of Years" min="0" max="70">
+          <span class="field-error">Years in ministry is required.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="f-ministryInterest">
+          <label>Ministry Interest <span class="req">*</span></label>
+          <select id="ministryInterest">
+            <option value="">Select a ministry</option>
+            <option>Music Ministry</option>
+            <option>Deaf Ministry</option>
+            <option>Children Ministry</option>
+            <option>Young People Ministry</option>
+            <option>Discipleship</option>
+            <option>Soul Winning</option>
+            <option>Extension Ministry</option>
+            <option>Local Missions</option>
+            <option>Foreign Missions</option>
+          </select>
+          <span class="field-error">Please select a ministry interest.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Payment -->
+    <div class="card step-card" id="sectionPayment">
+      <div class="card-title">
+        <div class="card-title-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        Payment Information
+      </div>
+      <div class="info-inline">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        Attach your proof of payment (GCash screenshot or bank receipt).
+      </div>
+      <div class="fee-display">
+        <div>
+          <div class="fee-lbl">Camp Fee</div>
+          <div class="fee-sub">Per person</div>
+        </div>
+        <div style="text-align:right">
+          <div class="fee-val">PHP 200</div>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:14px" id="f-payMethod">
+        <label>Payment Method <span class="req">*</span></label>
+        <div class="radio-inline" id="payMethodGroup">
+          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this,'payMethod','GCash')">
+            <input type="radio" name="payMethod"> <label>GCash</label>
+          </div>
+          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this,'payMethod','Bank Transfer')">
+            <input type="radio" name="payMethod"> <label>Bank Transfer</label>
+          </div>
+        </div>
+        <span class="field-error" id="payMethodError">Please select a payment method.</span>
+      </div>
+      <div class="form-row col2">
+        <div class="field" id="f-refNo">
+          <label>Reference Number <span class="req">*</span></label>
+          <input type="text" id="refNo" placeholder="Reference / Transaction Number">
+          <span class="field-error">Reference number is required.</span>
+        </div>
+        <div class="field" id="f-amtPaid">
+          <label>Amount Paid <span class="req">*</span></label>
+          <input type="number" id="amtPaid" placeholder="Amount" min="0">
+          <span class="field-error">Amount paid is required.</span>
+        </div>
+      </div>
+      <div class="form-row col2">
+        <div class="field" id="f-payDate">
+          <label>Date of Payment <span class="req">*</span></label>
+          <input type="date" id="payDate">
+          <span class="field-error">Date of payment is required.</span>
+        </div>
+        <div class="field">
+          <label>Account Name</label>
+          <input type="text" id="acctName" placeholder="Account Name Used">
+        </div>
+      </div>
+      <div class="field" id="f-receipt" style="margin-top:4px">
+        <label>Receipt / Screenshot <span class="req">*</span></label>
+        <div class="upload-box" id="uploadBox" onclick="document.getElementById('receiptFile').click()">
+          <div class="upload-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+          </div>
+          <p id="uploadLabel">Click or drag to upload</p>
+          <p class="upload-sub">JPG, PNG or PDF</p>
+          <p class="uploaded-name" id="uploadedName" style="display:none"></p>
+        </div>
+        <input type="file" id="receiptFile" style="display:none" accept="image/*,.pdf" onchange="handleUpload(this)">
+        <span class="field-error" id="receiptError">Receipt is required.</span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="btn-row">
+      <button type="button" class="btn" id="btnBack" onclick="prevStep()" style="display:none">Back</button>
+      <button type="button" class="btn primary" id="btnNext" onclick="nextStep()">Next →</button>
+      <button type="button" class="btn primary" id="btnSubmit" onclick="submitForm()" style="display:none">
+        Submit Registration ✓
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Done Section -->
+  <div id="doneSection" style="display:none">
+    <div class="card done-card">
+      <div class="done-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2>Registration Submitted!</h2>
+      <p>Thank you for registering. A confirmation will be sent to your email shortly.</p>
+      <div class="done-detail" id="doneDetail"></div>
+      <p style="margin-top:1.5rem;font-size:12.5px;color:#8aabca">Please keep your reference number for records. See you at camp!</p>
+      <div class="btn-row" style="justify-content:center;margin-top:1.5rem;gap:10px">
+        <button type="button" class="btn primary" onclick="registerAgain()">Register Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="form-footer">
+    <span class="req">*</span> Required fields &nbsp;|&nbsp; Plaridel Youth Camp &nbsp;|&nbsp; Special Registration
+  </div>
+
+</div>
+
+<script>
+var formData = {role:'', gender:'', civil:'', payMethod:''};
+var TOTAL_STEPS = 5;
+var currentStep = 1;
+var formStepIds = ['sectionRole','sectionPersonal','sectionChurch','sectionPayment'];
+var SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxjCvTBx3aJYBVofy9pcM54YoB3KJQQX1tN8M2B2n1bhQ4ZRAyPq_zA4l7Ze_7o9eCuSA/exec';
+
+function postToSheets(payload){
+  if(!SHEETS_WEB_APP_URL || SHEETS_WEB_APP_URL.indexOf('PASTE_YOUR_') === 0){
+    return Promise.reject(new Error('Google Sheets Web App URL is not configured.'));
+  }
+  return fetch(SHEETS_WEB_APP_URL, {
+    method: 'POST',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(payload),
+    redirect: 'follow'
+  }).then(function(r){ return r.json(); })
+    .then(function(data){
+      if(!data || data.ok !== true){
+        throw new Error((data && data.error) ? data.error : 'Server rejected submission.');
+      }
+      return data;
+    });
+}
+
+function fileToBase64(file){
+  return new Promise(function(resolve,reject){
+    var reader = new FileReader();
+    reader.onload = function(e){
+      var result = (e && e.target && e.target.result) ? String(e.target.result) : '';
+      var commaIdx = result.indexOf(',');
+      resolve(commaIdx >= 0 ? result.slice(commaIdx + 1) : result);
+    };
+    reader.onerror = function(){ reject(new Error('Failed to read receipt file.')); };
+    reader.readAsDataURL(file);
+  });
+}
+
+// FIX: Use data-role attribute to avoid quote issues in onclick
+function selectRole(el) {
+  var val = el.getAttribute('data-role');
+  formData.role = val;
+  document.querySelectorAll('.role-card').forEach(function(c){c.classList.remove('selected');});
+  el.classList.add('selected');
+  document.getElementById('roleError').style.display='none';
+}
+
+function selectRadio(groupId, el, key, val) {
+  var grp = document.getElementById(groupId);
+  grp.querySelectorAll('.radio-opt').forEach(function(r){r.classList.remove('selected');});
+  el.classList.add('selected');
+  el.querySelector('input[type=radio]').checked=true;
+  if(key) formData[key]=val;
+  var errMap = {gender:'genderError',civil:'civilError',payMethod:'payMethodError'};
+  if(errMap[key]){var e=document.getElementById(errMap[key]);if(e)e.style.display='none';}
+}
+
+function updateProgress(){
+  var pct = Math.round(((currentStep-1) / (TOTAL_STEPS-1)) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Step ' + currentStep + ' of ' + TOTAL_STEPS;
+  // Update dots
+  for(var i=1;i<=TOTAL_STEPS;i++){
+    var dot = document.getElementById('dot'+i);
+    if(!dot) continue;
+    dot.classList.remove('active','done');
+    if(i < currentStep) {
+      dot.classList.add('done');
+    } else if(i === currentStep) {
+      dot.classList.add('active');
+    }
+  }
+}
+
+function showStep(step){
+  currentStep = step;
+  formStepIds.forEach(function(id,idx){
+    var el = document.getElementById(id);
+    if(el) el.classList.toggle('active', idx === (step-1));
+  });
+  var back = document.getElementById('btnBack');
+  var next = document.getElementById('btnNext');
+  var submit = document.getElementById('btnSubmit');
+  if(back) back.style.display = step===1 ? 'none' : 'inline-block';
+  if(next) next.style.display = step<4 ? 'inline-block' : 'none';
+  if(submit) submit.style.display = step===4 ? 'inline-block' : 'none';
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function nextStep(){
+  if(!validateStep(currentStep)) return;
+  if(currentStep < 4) showStep(currentStep + 1);
+}
+
+function prevStep(){
+  if(currentStep > 1) showStep(currentStep - 1);
+}
+
+function handleUpload(inp){
+  if(inp.files && inp.files[0]){
+    var name = inp.files[0].name;
+    document.getElementById('uploadedName').textContent = name;
+    document.getElementById('uploadedName').style.display = 'block';
+    document.getElementById('uploadLabel').textContent = 'File attached:';
+    document.getElementById('uploadBox').classList.add('has-file');
+    document.getElementById('receiptError').style.display='none';
+  }
+}
+
+function validateStep(step){
+  var ok = true;
+  function req(id, fieldId){
+    var el = document.getElementById(id);
+    var wrap = document.getElementById(fieldId||('f-'+id));
+    var val = el ? el.value.trim() : '';
+    if(!val){
+      if(wrap) wrap.classList.add('has-error');
+      ok=false;
+    } else {
+      if(wrap) wrap.classList.remove('has-error');
+    }
+  }
+  if(step === 1){
+    if(!formData.role){document.getElementById('roleError').style.display='block';ok=false;}
+  }
+  if(step === 2){
+    req('firstName','f-firstName');req('middleName','f-middleName');req('lastName','f-lastName');
+    req('birthDate','f-birthDate');req('contact','f-contact');req('email','f-email');
+    if(!formData.gender){document.getElementById('genderError').style.display='block';ok=false;}
+    if(!formData.civil){document.getElementById('civilError').style.display='block';ok=false;}
+    req('ecPerson','f-ecPerson');req('ecNumber','f-ecNumber');
+  }
+  if(step === 3){
+    req('churchName','f-churchName');req('yearsMinistry','f-yearsMinistry');
+    var mi = document.getElementById('ministryInterest');
+    if(!mi||!mi.value){document.getElementById('f-ministryInterest').classList.add('has-error');ok=false;}
+    else{document.getElementById('f-ministryInterest').classList.remove('has-error');}
+  }
+  if(step === 4){
+    if(!formData.payMethod){document.getElementById('payMethodError').style.display='block';ok=false;}
+    req('refNo','f-refNo');req('amtPaid','f-amtPaid');req('payDate','f-payDate');
+    var file = document.getElementById('receiptFile');
+    if(!file||!file.files||!file.files.length){document.getElementById('receiptError').style.display='block';ok=false;}
+  }
+  return ok;
+}
+
+async function submitForm(){
+  for(var s=1; s<=4; s++){if(!validateStep(s)){showStep(s);return;}}
+  var submitBtn = document.getElementById('btnSubmit');
+  if(submitBtn){
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+  }
+
+  try {
+    var receiptInput = document.getElementById('receiptFile');
+    var receiptFile = receiptInput && receiptInput.files && receiptInput.files[0] ? receiptInput.files[0] : null;
+    if(receiptFile && receiptFile.size > 3 * 1024 * 1024){
+      alert('Receipt file is too large. Please upload an image under 3MB.');
+      return;
+    }
+    var receiptBase64 = '';
+    if(receiptFile){
+      receiptBase64 = await fileToBase64(receiptFile);
+    }
+
+    var payload = {
+      formType: 'pastors_missionaries_registration',
+      targetSheet: 'PastorsMissionaries Registration',
+      submittedAt: new Date().toISOString(),
+      role: formData.role,
+      personalInfo: {
+        firstName: (document.getElementById('firstName').value || '').trim(),
+        middleName: (document.getElementById('middleName').value || '').trim(),
+        lastName: (document.getElementById('lastName').value || '').trim(),
+        gender: formData.gender,
+        birthDate: (document.getElementById('birthDate').value || '').trim(),
+        civilStatus: formData.civil,
+        contactNumber: (document.getElementById('contact').value || '').trim(),
+        email: (document.getElementById('email').value || '').trim(),
+        emergencyContactPerson: (document.getElementById('ecPerson').value || '').trim(),
+        emergencyContactNumber: (document.getElementById('ecNumber').value || '').trim(),
+        homeAddress: ((document.getElementById('homeAddress') || {}).value || '').trim()
+      },
+      churchInfo: {
+        churchName: (document.getElementById('churchName').value || '').trim(),
+        churchAddress: (document.getElementById('churchAddress').value || '').trim(),
+        yearsInMinistry: (document.getElementById('yearsMinistry').value || '').trim(),
+        ministryInterest: (document.getElementById('ministryInterest').value || '').trim()
+      },
+      payment: {
+        method: formData.payMethod,
+        referenceNo: (document.getElementById('refNo').value || '').trim(),
+        amountPaid: Number(document.getElementById('amtPaid').value || 0),
+        paymentDate: (document.getElementById('payDate').value || '').trim(),
+        accountName: (document.getElementById('acctName').value || '').trim(),
+        receiptFileName: receiptFile ? receiptFile.name : '',
+        receiptMimeType: receiptFile ? (receiptFile.type || 'application/octet-stream') : '',
+        receiptFileBase64: receiptBase64
+      }
+    };
+
+    await postToSheets(payload);
+
+  var fn = document.getElementById('firstName').value.trim();
+  var ln = document.getElementById('lastName').value.trim();
+  var refNo = document.getElementById('refNo').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var detail = document.getElementById('doneDetail');
+  detail.innerHTML = row('Name',fn+' '+ln)+row('Role',formData.role)+
+    row('Church',document.getElementById('churchName').value.trim())+
+    row('Payment Method',formData.payMethod)+row('Reference No.',refNo)+row('Email',email);
+  document.getElementById('mainForm').style.display='none';
+  document.getElementById('doneSection').style.display='block';
+  currentStep = 5;
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+  } catch(err){
+    alert('Submission failed: ' + (err && err.message ? err.message : 'Unknown error'));
+  } finally {
+    if(submitBtn){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Registration ✓';
+    }
+  }
+}
+
+function registerAgain(){
+  document.getElementById('mainForm').reset();
+  document.querySelectorAll('.role-card').forEach(function(c){c.classList.remove('selected');});
+  document.querySelectorAll('.radio-opt').forEach(function(r){r.classList.remove('selected');});
+  document.querySelectorAll('.field.has-error').forEach(function(f){f.classList.remove('has-error');});
+  document.querySelectorAll('.field-error').forEach(function(e){e.style.display='none';});
+  formData = {role:'', gender:'', civil:'', payMethod:''};
+  var upName = document.getElementById('uploadedName');
+  var upLabel = document.getElementById('uploadLabel');
+  var upBox = document.getElementById('uploadBox');
+  if(upName){upName.textContent='';upName.style.display='none';}
+  if(upLabel) upLabel.textContent='Click or drag to upload';
+  if(upBox) upBox.classList.remove('has-file');
+  document.getElementById('doneSection').style.display='none';
+  document.getElementById('mainForm').style.display='block';
+  showStep(1);
+}
+
+function row(k,v){
+  return '<div class="done-detail-row"><span class="dk">'+k+'</span><span class="dv">'+esc(v)+'</span></div>';
+}
+
+function esc(s){
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+}
+
+// Drag and drop support
+(function(){
+  var box = document.getElementById('uploadBox');
+  if(!box) return;
+  box.addEventListener('dragover',function(e){e.preventDefault();box.style.borderColor='#1150A0';});
+  box.addEventListener('dragleave',function(){box.style.borderColor='';});
+  box.addEventListener('drop',function(e){
+    e.preventDefault();
+    box.style.borderColor='';
+    var files = e.dataTransfer.files;
+    if(files&&files[0]){
+      var inp = document.getElementById('receiptFile');
+      // Create a DataTransfer to assign to input
+      try {
+        var dt = new DataTransfer();
+        dt.items.add(files[0]);
+        inp.files = dt.files;
+      } catch(err){}
+      document.getElementById('uploadedName').textContent = files[0].name;
+      document.getElementById('uploadedName').style.display='block';
+      document.getElementById('uploadLabel').textContent='File attached:';
+      box.classList.add('has-file');
+      document.getElementById('receiptError').style.display='none';
+    }
+  });
+})();
+
+showStep(1);
+</script>
+</body>
+</html>
