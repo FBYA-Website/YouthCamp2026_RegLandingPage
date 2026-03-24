@@ -168,9 +168,8 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI'
       <div class="step-dot" id="dot2"><span>2</span></div>
       <div class="step-dot" id="dot3"><span>3</span></div>
       <div class="step-dot" id="dot4"><span>4</span></div>
-      <div class="step-dot" id="dot5"><span>5</span></div>
     </div>
-    <div class="progress-label" id="progressLabel">Step 1 of 5</div>
+    <div class="progress-label" id="progressLabel">Step 1 of 4</div>
   </div>
 
   <!-- Form -->
@@ -388,76 +387,7 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI'
       </div>
     </div>
 
-    <!-- Step 4: Payment -->
-    <div class="card step-card" id="sectionPayment">
-      <div class="card-title">
-        <div class="card-title-icon">
-          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
-        </div>
-        Payment Information
-      </div>
-      <div class="info-inline">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        Attach your proof of payment (GCash screenshot or bank receipt).
-      </div>
-      <div class="fee-display">
-        <div>
-          <div class="fee-lbl">Camp Fee</div>
-          <div class="fee-sub">Per person</div>
-        </div>
-        <div style="text-align:right">
-          <div class="fee-val">PHP 200</div>
-        </div>
-      </div>
-      <div class="field" style="margin-bottom:14px" id="f-payMethod">
-        <label>Payment Method <span class="req">*</span></label>
-        <div class="radio-inline" id="payMethodGroup">
-          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this,'payMethod','GCash')">
-            <input type="radio" name="payMethod"> <label>GCash</label>
-          </div>
-          <div class="radio-opt" onclick="selectRadio('payMethodGroup',this,'payMethod','Bank Transfer')">
-            <input type="radio" name="payMethod"> <label>Bank Transfer</label>
-          </div>
-        </div>
-        <span class="field-error" id="payMethodError">Please select a payment method.</span>
-      </div>
-      <div class="form-row col2">
-        <div class="field" id="f-refNo">
-          <label>Reference Number <span class="req">*</span></label>
-          <input type="text" id="refNo" placeholder="Reference / Transaction Number">
-          <span class="field-error">Reference number is required.</span>
-        </div>
-        <div class="field" id="f-amtPaid">
-          <label>Amount Paid <span class="req">*</span></label>
-          <input type="number" id="amtPaid" placeholder="Amount" min="0">
-          <span class="field-error">Amount paid is required.</span>
-        </div>
-      </div>
-      <div class="form-row col2">
-        <div class="field" id="f-payDate">
-          <label>Date of Payment <span class="req">*</span></label>
-          <input type="date" id="payDate">
-          <span class="field-error">Date of payment is required.</span>
-        </div>
-        <div class="field">
-          <label>Account Name</label>
-          <input type="text" id="acctName" placeholder="Account Name Used">
-        </div>
-      </div>
-      <div class="field" id="f-receipt" style="margin-top:4px">
-        <label>Receipt / Screenshot <span class="req">*</span></label>
-        <div class="upload-box" id="uploadBox" onclick="document.getElementById('receiptFile').click()">
-          <div class="upload-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
-          </div>
-          <p id="uploadLabel">Click or drag to upload</p>
-          <p class="upload-sub">JPG, PNG or PDF</p>
-          <p class="uploaded-name" id="uploadedName" style="display:none"></p>
-        </div>
-        <input type="file" id="receiptFile" style="display:none" accept="image/*,.pdf" onchange="handleUpload(this)">
-        <span class="field-error" id="receiptError">Receipt is required.</span>
-      </div>
-    </div>
+
 
     <!-- Buttons -->
     <div class="btn-row">
@@ -494,27 +424,51 @@ body{font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI'
 </div>
 
 <script>
-var formData = {role:'', gender:'', civil:'', payMethod:''};
-var TOTAL_STEPS = 5;
+var formData = {role:'', gender:'', civil:''};
+var TOTAL_STEPS = 4;
 var currentStep = 1;
-var formStepIds = ['sectionRole','sectionPersonal','sectionChurch','sectionPayment'];
+var formStepIds = ['sectionRole','sectionPersonal','sectionChurch'];
 var SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxjCvTBx3aJYBVofy9pcM54YoB3KJQQX1tN8M2B2n1bhQ4ZRAyPq_zA4l7Ze_7o9eCuSA/exec';
 
 function postToSheets(payload){
   if(!SHEETS_WEB_APP_URL || SHEETS_WEB_APP_URL.indexOf('PASTE_YOUR_') === 0){
     return Promise.reject(new Error('Google Sheets Web App URL is not configured.'));
   }
-  return fetch(SHEETS_WEB_APP_URL, {
+  var requestBody = JSON.stringify(payload);
+  var primaryRequest = {
     method: 'POST',
     headers: {'Content-Type': 'text/plain;charset=utf-8'},
-    body: JSON.stringify(payload),
+    body: requestBody,
     redirect: 'follow'
-  }).then(function(r){ return r.json(); })
+  };
+
+  return fetch(SHEETS_WEB_APP_URL, primaryRequest)
+    .then(function(r){ return r.json(); })
     .then(function(data){
       if(!data || data.ok !== true){
         throw new Error((data && data.error) ? data.error : 'Server rejected submission.');
       }
       return data;
+    })
+    .catch(function(err){
+      var msg = String((err && err.message) || '').toLowerCase();
+      var isFetchBlocked = (err && err.name === 'TypeError') || msg.indexOf('failed to fetch') !== -1;
+      if(!isFetchBlocked){
+        throw err;
+      }
+
+      // Fallback for cases like opening the form via file:// where CORS blocks response reads.
+      return fetch(SHEETS_WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {'Content-Type': 'text/plain;charset=utf-8'},
+        body: requestBody,
+        redirect: 'follow'
+      }).then(function(){
+        return {ok:true, note:'Submitted with no-cors fallback.'};
+      }).catch(function(){
+        throw new Error('Unable to connect to the submission server. Check internet and Web App deployment access.');
+      });
     });
 }
 
@@ -577,15 +531,15 @@ function showStep(step){
   var next = document.getElementById('btnNext');
   var submit = document.getElementById('btnSubmit');
   if(back) back.style.display = step===1 ? 'none' : 'inline-block';
-  if(next) next.style.display = step<4 ? 'inline-block' : 'none';
-  if(submit) submit.style.display = step===4 ? 'inline-block' : 'none';
+  if(next) next.style.display = step<3 ? 'inline-block' : 'none';
+  if(submit) submit.style.display = step===3 ? 'inline-block' : 'none';
   updateProgress();
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
 function nextStep(){
   if(!validateStep(currentStep)) return;
-  if(currentStep < 4) showStep(currentStep + 1);
+  if(currentStep < 3) showStep(currentStep + 1);
 }
 
 function prevStep(){
@@ -632,17 +586,17 @@ function validateStep(step){
     if(!mi||!mi.value){document.getElementById('f-ministryInterest').classList.add('has-error');ok=false;}
     else{document.getElementById('f-ministryInterest').classList.remove('has-error');}
   }
-  if(step === 4){
-    if(!formData.payMethod){document.getElementById('payMethodError').style.display='block';ok=false;}
-    req('refNo','f-refNo');req('amtPaid','f-amtPaid');req('payDate','f-payDate');
-    var file = document.getElementById('receiptFile');
-    if(!file||!file.files||!file.files.length){document.getElementById('receiptError').style.display='block';ok=false;}
-  }
   return ok;
 }
 
+function generateRegistrationId() {
+  var timestamp = Date.now().toString(36).toUpperCase();
+  var random = Math.random().toString(36).substr(2, 6).toUpperCase();
+  return 'REG-' + timestamp + '-' + random;
+}
+
 async function submitForm(){
-  for(var s=1; s<=4; s++){if(!validateStep(s)){showStep(s);return;}}
+  for(var s=1; s<=3; s++){if(!validateStep(s)){showStep(s);return;}}
   var submitBtn = document.getElementById('btnSubmit');
   if(submitBtn){
     submitBtn.disabled = true;
@@ -650,21 +604,12 @@ async function submitForm(){
   }
 
   try {
-    var receiptInput = document.getElementById('receiptFile');
-    var receiptFile = receiptInput && receiptInput.files && receiptInput.files[0] ? receiptInput.files[0] : null;
-    if(receiptFile && receiptFile.size > 3 * 1024 * 1024){
-      alert('Receipt file is too large. Please upload an image under 3MB.');
-      return;
-    }
-    var receiptBase64 = '';
-    if(receiptFile){
-      receiptBase64 = await fileToBase64(receiptFile);
-    }
-
+    var registrationId = generateRegistrationId();
     var payload = {
       formType: 'pastors_missionaries_registration',
       targetSheet: 'PastorsMissionaries Registration',
       submittedAt: new Date().toISOString(),
+      registrationId: registrationId,
       role: formData.role,
       personalInfo: {
         firstName: (document.getElementById('firstName').value || '').trim(),
@@ -684,16 +629,6 @@ async function submitForm(){
         churchAddress: (document.getElementById('churchAddress').value || '').trim(),
         yearsInMinistry: (document.getElementById('yearsMinistry').value || '').trim(),
         ministryInterest: (document.getElementById('ministryInterest').value || '').trim()
-      },
-      payment: {
-        method: formData.payMethod,
-        referenceNo: (document.getElementById('refNo').value || '').trim(),
-        amountPaid: Number(document.getElementById('amtPaid').value || 0),
-        paymentDate: (document.getElementById('payDate').value || '').trim(),
-        accountName: (document.getElementById('acctName').value || '').trim(),
-        receiptFileName: receiptFile ? receiptFile.name : '',
-        receiptMimeType: receiptFile ? (receiptFile.type || 'application/octet-stream') : '',
-        receiptFileBase64: receiptBase64
       }
     };
 
@@ -701,15 +636,14 @@ async function submitForm(){
 
   var fn = document.getElementById('firstName').value.trim();
   var ln = document.getElementById('lastName').value.trim();
-  var refNo = document.getElementById('refNo').value.trim();
   var email = document.getElementById('email').value.trim();
+  var churchName = document.getElementById('churchName').value.trim();
   var detail = document.getElementById('doneDetail');
   detail.innerHTML = row('Name',fn+' '+ln)+row('Role',formData.role)+
-    row('Church',document.getElementById('churchName').value.trim())+
-    row('Payment Method',formData.payMethod)+row('Reference No.',refNo)+row('Email',email);
+    row('Church Name',churchName)+row('Email',email)+row('Registration ID',registrationId);
   document.getElementById('mainForm').style.display='none';
   document.getElementById('doneSection').style.display='block';
-  currentStep = 5;
+  currentStep = 4;
   updateProgress();
   window.scrollTo({top:0,behavior:'smooth'});
   } catch(err){
@@ -728,13 +662,7 @@ function registerAgain(){
   document.querySelectorAll('.radio-opt').forEach(function(r){r.classList.remove('selected');});
   document.querySelectorAll('.field.has-error').forEach(function(f){f.classList.remove('has-error');});
   document.querySelectorAll('.field-error').forEach(function(e){e.style.display='none';});
-  formData = {role:'', gender:'', civil:'', payMethod:''};
-  var upName = document.getElementById('uploadedName');
-  var upLabel = document.getElementById('uploadLabel');
-  var upBox = document.getElementById('uploadBox');
-  if(upName){upName.textContent='';upName.style.display='none';}
-  if(upLabel) upLabel.textContent='Click or drag to upload';
-  if(upBox) upBox.classList.remove('has-file');
+  formData = {role:'', gender:'', civil:''};
   document.getElementById('doneSection').style.display='none';
   document.getElementById('mainForm').style.display='block';
   showStep(1);
@@ -748,32 +676,7 @@ function esc(s){
   return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 }
 
-// Drag and drop support
-(function(){
-  var box = document.getElementById('uploadBox');
-  if(!box) return;
-  box.addEventListener('dragover',function(e){e.preventDefault();box.style.borderColor='#1150A0';});
-  box.addEventListener('dragleave',function(){box.style.borderColor='';});
-  box.addEventListener('drop',function(e){
-    e.preventDefault();
-    box.style.borderColor='';
-    var files = e.dataTransfer.files;
-    if(files&&files[0]){
-      var inp = document.getElementById('receiptFile');
-      // Create a DataTransfer to assign to input
-      try {
-        var dt = new DataTransfer();
-        dt.items.add(files[0]);
-        inp.files = dt.files;
-      } catch(err){}
-      document.getElementById('uploadedName').textContent = files[0].name;
-      document.getElementById('uploadedName').style.display='block';
-      document.getElementById('uploadLabel').textContent='File attached:';
-      box.classList.add('has-file');
-      document.getElementById('receiptError').style.display='none';
-    }
-  });
-})();
+
 
 showStep(1);
 </script>

@@ -153,6 +153,7 @@ function appendSubmission_(sheet, formType, payload) {
   if (formType === 'pastors_missionaries_registration') {
     const headers = [
       'submittedAt',
+      'registrationId',
       'role',
       'firstName',
       'middleName',
@@ -168,22 +169,15 @@ function appendSubmission_(sheet, formType, payload) {
       'churchName',
       'churchAddress',
       'yearsInMinistry',
-      'ministryInterest',
-      'paymentMethod',
-      'referenceNo',
-      'amountPaid',
-      'paymentDate',
-      'accountName',
-      'receiptLink'
+      'ministryInterest'
     ];
     ensureHeader_(sheet, headers);
 
     const personal = payload.personalInfo || {};
     const church = payload.churchInfo || {};
-    const payment = payload.payment || {};
-    const receiptLink = saveReceiptToDrive_(payment, formType);
     const row = [
       payload.submittedAt || new Date().toISOString(),
+      payload.registrationId || '',
       payload.role || '',
       personal.firstName || '',
       personal.middleName || '',
@@ -199,13 +193,7 @@ function appendSubmission_(sheet, formType, payload) {
       church.churchName || '',
       church.churchAddress || '',
       church.yearsInMinistry || '',
-      church.ministryInterest || '',
-      payment.method || '',
-      payment.referenceNo || '',
-      Number(payment.amountPaid || 0),
-      payment.paymentDate || '',
-      payment.accountName || '',
-      receiptLink || payment.receiptFileName || ''
+      church.ministryInterest || ''
     ];
     sheet.appendRow(row);
     return;
