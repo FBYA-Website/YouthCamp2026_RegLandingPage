@@ -618,19 +618,102 @@ function fileToBase64(file){
 }
 
 function validateYouthSubmission(){
-  var churchName = (document.getElementById('churchName').value || '').trim();
-  var delHead = (document.getElementById('delHead').value || '').trim();
-  var delHeadEmail = (document.getElementById('delHeadEmail').value || '').trim();
-  var payMethod = document.querySelector('input[name="payMethod"]:checked');
-  var refNo = (document.getElementById('refNo').value || '').trim();
-  var amtPaid = (document.getElementById('amtPaid').value || '').trim();
-  var payDate = (document.getElementById('payDate').value || '').trim();
-  var receiptInput = document.getElementById('receiptFile');
-  var hasReceipt = receiptInput && receiptInput.files && receiptInput.files.length > 0;
-  if(!churchName || !delHead || !delHeadEmail || !payMethod || !refNo || !amtPaid || !payDate || !hasReceipt){
-    alert('Please complete all required Church, Head, Delegate, and Payment details before submitting.');
+  if(!validateStep1()) return false;
+  if(!validateStep2()) return false;
+  if(!validateDelegates()) return false;
+  if(!validateStep4()) return false;
+  return true;
+}
+
+function getValue(id){
+  var el = document.getElementById(id);
+  return el ? (el.value || '').trim() : '';
+}
+
+function focusField(id){
+  var el = document.getElementById(id);
+  if(el && typeof el.focus === 'function'){
+    el.focus();
+  }
+}
+
+function validateStep1(){
+  var churchName = getValue('churchName');
+  if(!churchName){
+    alert('Church Name is required before continuing.');
+    focusField('churchName');
     return false;
   }
+  return true;
+}
+
+function validateStep2(){
+  var delHead = getValue('delHead');
+  var delHeadEmail = getValue('delHeadEmail');
+  if(!delHead || !delHeadEmail){
+    alert('Delegation Head Name and Email are required before continuing.');
+    if(!delHead) focusField('delHead');
+    else focusField('delHeadEmail');
+    return false;
+  }
+  return true;
+}
+
+function validateDelegates(){
+  var requiredFields = [
+    { key: 'firstName', label: 'First Name', id: 'fn' },
+    { key: 'middleName', label: 'Middle Name', id: 'mn' },
+    { key: 'lastName', label: 'Last Name', id: 'ln' },
+    { key: 'nickname', label: 'Nickname', id: 'nn' },
+    { key: 'gender', label: 'Gender', id: 'gn' },
+    { key: 'birthDate', label: 'Birth Date', id: 'bd' },
+    { key: 'contact', label: 'Contact Number', id: 'cn' },
+    { key: 'email', label: 'Email', id: 'em' },
+    { key: 'emergency', label: 'Emergency Contact Person', id: 'ec' },
+    { key: 'emergencyNum', label: 'Emergency Contact Number', id: 'ecn' },
+    { key: 'ministry', label: 'Ministry Interest', id: 'mi' }
+  ];
+
+  for(var i = 0; i < delegates.length; i++){
+    var delegate = delegates[i];
+    for(var j = 0; j < requiredFields.length; j++){
+      var field = requiredFields[j];
+      if(!String(delegate[field.key] || '').trim()){
+        activeIdx = i;
+        renderTabs();
+        renderForm();
+        alert('Delegate ' + (i + 1) + ' ' + field.label + ' is required before continuing.');
+        focusField(field.id);
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+function validateStep4(){
+  var payMethod = document.querySelector('input[name="payMethod"]:checked');
+  var refNo = getValue('refNo');
+  var amtPaid = getValue('amtPaid');
+  var payDate = getValue('payDate');
+  var receiptInput = document.getElementById('receiptFile');
+  var hasReceipt = receiptInput && receiptInput.files && receiptInput.files.length > 0;
+
+  if(!payMethod || !refNo || !amtPaid || !payDate || !hasReceipt){
+    alert('Please complete all required payment details before submitting.');
+    if(!payMethod){
+      document.getElementById('payMethodGroup').scrollIntoView({behavior:'smooth', block:'center'});
+    } else if(!refNo){
+      focusField('refNo');
+    } else if(!amtPaid){
+      focusField('amtPaid');
+    } else if(!payDate){
+      focusField('payDate');
+    }
+    return false;
+  }
+
   return true;
 }
 
@@ -659,9 +742,16 @@ function setStep(n){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function goStep2(){ setStep(2); }
-function goStep3(){ setStep(3); }
+function goStep2(){
+  if(!validateStep1()) return;
+  setStep(2);
+}
+function goStep3(){
+  if(!validateStep2()) return;
+  setStep(3);
+}
 function goStep4(){
+  if(!validateDelegates()) return;
   updateSummary();
   setStep(4);
 }
