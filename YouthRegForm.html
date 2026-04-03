@@ -277,7 +277,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <div style="font-size:12px;font-weight:600;color:#5a7a9a;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem">Fees</div>
       <div class="fee-row">
         <span class="fee-label">Camp Fee</span>
-        <span class="fee-note">200 per delegate</span>
+        <span class="fee-note">180 per delegate</span>
       </div>
       <div class="fee-row">
         <span class="fee-label">Total Fee</span>
@@ -543,7 +543,7 @@ function updateSummary(){
   if(e1) e1.textContent=men;
   if(e2) e2.textContent=ladies;
   if(e3) e3.textContent=total;
-  if(e4) e4.textContent=Number(total*200).toLocaleString();
+  if(e4) e4.textContent=Number(total*180).toLocaleString();
   updateAccommodation();
 }
 
@@ -709,7 +709,7 @@ async function goStep5(){
         men: men,
         ladies: ladies,
         total: delegates.length,
-        totalFee: delegates.length * 200
+        totalFee: delegates.length * 180
       },
       payment: {
         method: payMethodEl ? payMethodEl.value : '',
